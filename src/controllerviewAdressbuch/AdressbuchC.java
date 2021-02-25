@@ -26,12 +26,15 @@ public class AdressbuchC {
     @FXML
     private Label lab_site;
     private int index = 1;
-    private Phonebook phonebook;
+    private Phonebook phonebook = new Phonebook();
 
     public static void show(Stage stage) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(AdressbuchC.class.getResource("adressbuchV.fxml"));
             Parent root = fxmlLoader.load();
+
+            Phonebook phonebook = new Phonebook();
+            phonebook.load();
 
             //get controller which is connected to this fxml file
             AdressbuchC ctrl = fxmlLoader.getController();
@@ -57,20 +60,14 @@ public class AdressbuchC {
     @FXML
     public void loadCSV()
     {
-        try
-        {
-                phonebook.load();
-                index = 1;
-                paste();
+        try {
+            phonebook.load();
+            index = 1;
+            paste();
         }
-        catch (NullPointerException e)
-        {
-            lab_error.setText("Adressbuch ist leer!");
-        }
-
         catch (Exception e)
         {
-            lab_error.setText("Error!");
+            System.out.println("Fehler beim laden!");
         }
     }
 
@@ -81,7 +78,7 @@ public class AdressbuchC {
             txt_address.setText("");
             txt_telephone.setText("");
 
-            Phonebook.people.remove(index - 1);
+            phonebook.getPeople().remove(index - 1);
             index -= 1;
             lab_site.setText(index + "/" + phonebook.size());
         }
@@ -123,22 +120,33 @@ public class AdressbuchC {
 
     public void saveCSV()
     {
-        phonebook.save();
+        try {
+            phonebook.save(false);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Fehler beim Speichern!");
+        }
     }
 
     public void saveChanges()
     {
-        Phonebook.people.get(index-1).setName(txt_name.getText());
-        Phonebook.people.get(index-1).setAddress(txt_address.getText());
-        Phonebook.people.get(index-1).setTelephone(Integer.parseInt(txt_telephone.getText()));
-        System.out.println("Werte geändert!");
+        try {
+            phonebook.getPeople().get(index - 1).setName(txt_name.getText());
+            phonebook.getPeople().get(index - 1).setAddress(txt_address.getText());
+            phonebook.getPeople().get(index - 1).setTelephone(Integer.parseInt(txt_telephone.getText()));
+            System.out.println("Werte geändert!");
+        }
+        catch (Exception e)
+        {
+            System.out.println("Werte konnten nicht geändert werden!");
+        }
     }
 
-    public void paste()
-    {
-        txt_name.setText(Phonebook.people.get(index-1).getName());
-        txt_address.setText(Phonebook.people.get(index-1).getAddress());
-        txt_telephone.setText(String.valueOf(Phonebook.people.get(index-1).getTelephone()));
+    public void paste() {
+        txt_name.setText(phonebook.getName(index - 1));
+        txt_address.setText(phonebook.getAddress(index - 1));
+        txt_telephone.setText(String.valueOf(phonebook.getTelephone(index - 1)));
         lab_site.setText(index + "/" + phonebook.size());
     }
 

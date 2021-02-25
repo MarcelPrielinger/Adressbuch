@@ -19,6 +19,7 @@ public class AddC
     private TextField txt_address;
     @FXML
     private TextField txt_telephone;
+    private Phonebook phonebook = new Phonebook();
 
     public static void show(Stage stage)
     {
@@ -26,6 +27,9 @@ public class AddC
         {
             FXMLLoader fxmlLoader = new FXMLLoader(AddC.class.getResource("addV.fxml"));
             Parent root = fxmlLoader.load();
+
+            Phonebook phonebook = new Phonebook();
+            phonebook.load();
 
             //send data to MainController
             AddC ctrl = fxmlLoader.getController();
@@ -47,10 +51,9 @@ public class AddC
     {
         try
         {
-            Phonebook phonebook = new Phonebook();
-
-            Phonebook.people.add(new Person(txt_name.getText(), txt_address.getText(), Integer.parseInt(txt_telephone.getText())));
+            phonebook.addPerson(new Person(txt_name.getText(), txt_address.getText(), Integer.parseInt(txt_telephone.getText())));
             System.out.println("Person hinzugefügt!");
+            phonebook.save(true);
             stage.close();
             AdressbuchC.show(new Stage());
         }

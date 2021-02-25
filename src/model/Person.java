@@ -36,5 +36,9 @@ public class Person
         this.telephone = telephone;
     }
 
-
+    @Override
+    public String toString() {
+        String s = name + ";" + address + ";" + telephone;
+        return s;
+    }
 }
