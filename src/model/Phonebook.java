@@ -10,10 +10,6 @@ public class Phonebook
 {
     private ArrayList<Person> people = new ArrayList<>();
 
-    public ArrayList<Person> getPeople() {
-        return people;
-    }
-
     public void addPerson(Person person) {
         this.people.add(person);
     }
@@ -25,28 +21,14 @@ public class Phonebook
 
     public void save(boolean isAdd)
     {
-        if (isAdd == false) {
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + "\\src\\save\\Phonebook.csv"))) {
-                for (int c = 0; c < people.size(); c++) {
-                    bw.write(people.get(c).toString());
-                    bw.newLine();
-                }
-                System.out.println("Speichern erfolgreich!");
-            } catch (Exception e) {
-                System.out.println("Fehler beim Speichern!");
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + "\\src\\save\\Phonebook.csv",isAdd))) {
+            for (int i = 0; i < people.size(); i++) {
+                bw.write(people.get(i).toString());
+                bw.newLine();
             }
-        }
-        else {
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + "\\src\\save\\Phonebook.csv",true))) {
-                for (int c = 0; c < people.size(); c++) {
-                        bw.write(people.get(c).toString());
-                        bw.newLine();
-                }
-                bw.close();
-                System.out.println("Speichern erfolgreich!");
-            } catch (Exception e) {
-                System.out.println("Fehler beim Speichern!");
-            }
+            System.out.println("Speichern erfolgreich!");
+        } catch (Exception e) {
+            System.out.println("Fehler beim Speichern!");
         }
     }
 
@@ -80,6 +62,11 @@ public class Phonebook
     public String getTelephone(int index)
     {
         return this.people.get(index).getTelephone();
+    }
+
+    public void delete(int index)
+    {
+        people.remove(index);
     }
 
 

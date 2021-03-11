@@ -18,6 +18,6 @@
       <Button layoutY="236.0" mnemonicParsing="false" onAction="#add" prefHeight="64.0" prefWidth="109.0" text="Add" />
       <Button layoutX="250.0" layoutY="236.0" mnemonicParsing="false" onAction="#delete" prefHeight="64.0" prefWidth="109.0" text="Delete" />
       <Label fx:id="lab_site" layoutX="165.0" layoutY="193.0" />
-      <Label fx:id="lab_error" layoutX="110.0" layoutY="252.0" prefHeight="33.0" prefWidth="141.0" />
+      <Label fx:id="lab_error" layoutX="110.0" layoutY="236.0" prefHeight="64.0" prefWidth="141.0" />
    </children>
 </Pane>

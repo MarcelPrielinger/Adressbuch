@@ -52,13 +52,21 @@ public class AddC
 
     public void add()
     {
+        String[] character = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","ä","ö","ü"};
         try
         {
-            if (!txt_telephone.getText().contains("/"))
-                lab_error.setText("Ihre Telefonnummer muss \"/\" enthalten");
+            for (int i = 0; i < character.length;i++) {
+                if (txt_telephone.getText().contains(character[i]))
+                    lab_error.setText("Ihre Telefonnummer darf keine Buchstaben enthalten!");
+            }
+            if (!txt_telephone.getText().contains("/") || txt_telephone.getText().equals("/"))
+                lab_error.setText("Ihre Telefonnummer muss \"/\" und Zahlen enthalten!");
 
-            else if (txt_name.getText() == null || txt_address.getText() == null)
-                lab_error.setText("Alle Werte müssen angegeben sein!");
+            else if(txt_name.getText().isEmpty())
+                lab_error.setText("Geben Sie einen Namen ein!");
+
+            else if (txt_address.getText().isEmpty())
+                lab_error.setText("Geben Sie eine Adresse ein!");
 
             else
             {

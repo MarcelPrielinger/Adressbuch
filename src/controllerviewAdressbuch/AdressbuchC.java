@@ -51,7 +51,7 @@ public class AdressbuchC implements Initializable {
 
             stage.setOnCloseRequest(new  EventHandler<WindowEvent>() {
                 public void handle(WindowEvent we) {
-                    phonebook.save(false);
+                    //phonebook.save(false);
                 }
             });
         }
@@ -77,24 +77,27 @@ public class AdressbuchC implements Initializable {
     public void delete()
     {
         try {
-            txt_name.setText("");
-            txt_address.setText("");
-            txt_telephone.setText("");
-
-            phonebook.getPeople().remove(index - 1);
             index -= 1;
-            if(index != 0)
+            if(index == 0)
             {
-                update();
+                index = 1;
+                txt_name.setText("");
+                txt_address.setText("");
+                txt_telephone.setText("");
+                lab_site.setText("0/0");
+                phonebook.delete(0);
+                phonebook.save(false);
             }
             else
             {
-                phonebook.save(false);
+                update();
+                phonebook.delete(index - 1);
             }
         }
         catch (Exception e)
         {
-            lab_error.setText("Error!");
+            lab_error.setText("Error beim Löschen!");
+            e.printStackTrace();
         }
     }
 
@@ -145,7 +148,7 @@ public class AdressbuchC implements Initializable {
         }
         catch (IndexOutOfBoundsException e)
         {
-            lab_error.setText("Keine Person im Telefonbuch!");
+            lab_error.setText("Keine Person vorhanden!");
             System.out.println("Keine Person im Telefonbuch!");
         }
         catch (Exception e)

@@ -14,6 +14,6 @@
       <TextField fx:id="txt_address" layoutX="119.0" layoutY="72.0" prefHeight="42.0" prefWidth="250.0" />
       <TextField fx:id="txt_telephone" layoutX="119.0" layoutY="134.0" prefHeight="42.0" prefWidth="250.0" />
       <Button fx:id="btn_add" layoutX="158.0" layoutY="216.0" mnemonicParsing="false" onAction="#add" text="Add" />
-      <Label fx:id="lab_error" layoutX="37.0" layoutY="262.0" prefHeight="17.0" prefWidth="279.0" />
+      <Label fx:id="lab_error" layoutX="25.0" layoutY="252.0" prefHeight="17.0" prefWidth="303.0" />
    </children>
 </Pane>
