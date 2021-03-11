@@ -4,9 +4,9 @@ public class Person
 {
     private String name;
     private String address;
-    private int telephone;
+    private String telephone;
 
-    public Person(String name, String address, int telephone) {
+    public Person(String name, String address, String telephone) {
         this.name = name;
         this.address = address;
         this.telephone = telephone;
@@ -28,11 +28,11 @@ public class Person
         this.address = address;
     }
 
-    public int getTelephone() {
+    public String getTelephone() {
         return telephone;
     }
 
-    public void setTelephone(int telephone) {
+    public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
 

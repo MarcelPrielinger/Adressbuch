@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.Person;
@@ -19,6 +20,8 @@ public class AddC
     private TextField txt_address;
     @FXML
     private TextField txt_telephone;
+    @FXML
+    private Label lab_error;
     private Phonebook phonebook = new Phonebook();
 
     public static void show(Stage stage)
@@ -36,7 +39,7 @@ public class AddC
             ctrl.stage = stage;
 
             stage.setTitle("Add");
-            stage.setScene(new Scene(root, 375, 250));
+            stage.setScene(new Scene(root, 375, 300));
             stage.show();
         }
 
@@ -51,11 +54,20 @@ public class AddC
     {
         try
         {
-            phonebook.addPerson(new Person(txt_name.getText(), txt_address.getText(), Integer.parseInt(txt_telephone.getText())));
-            System.out.println("Person hinzugefügt!");
-            phonebook.save(true);
-            stage.close();
-            AdressbuchC.show(new Stage());
+            if (!txt_telephone.getText().contains("/"))
+                lab_error.setText("Ihre Telefonnummer muss \"/\" enthalten");
+
+            else if (txt_name.getText() == null || txt_address.getText() == null)
+                lab_error.setText("Alle Werte müssen angegeben sein!");
+
+            else
+            {
+                phonebook.addPerson(new Person(txt_name.getText(), txt_address.getText(), txt_telephone.getText()));
+                System.out.println("Person hinzugefügt!");
+                phonebook.save(true);
+                stage.close();
+                AdressbuchC.show(new Stage());
+            }
         }
         catch (Exception e)
         {

@@ -1,6 +1,7 @@
 package controllerviewAdressbuch;
 
 import controllerviewAdd.AddC;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -9,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import model.Phonebook;
 
 import java.io.IOException;
@@ -46,6 +48,12 @@ public class AdressbuchC implements Initializable {
             stage.setTitle("Adressbuch");
             stage.setScene(new Scene(root, 360, 310));
             stage.show();
+
+            stage.setOnCloseRequest(new  EventHandler<WindowEvent>() {
+                public void handle(WindowEvent we) {
+                    phonebook.save(false);
+                }
+            });
         }
         catch (IOException e) {
             System.err.println("Something wrong with adressbuchV.fxml: " + e.getMessage());
@@ -56,8 +64,14 @@ public class AdressbuchC implements Initializable {
     @FXML
     public void add()
     {
-        stage.close();
-        AddC.show(new Stage());
+        try {
+            stage.close();
+            AddC.show(new Stage());
+        }
+        catch (Exception e)
+        {
+            System.out.println("Fehler beim öffnen");
+        }
     }
 
     public void delete()
@@ -117,7 +131,7 @@ public class AdressbuchC implements Initializable {
     public void update() {
         txt_name.setText(phonebook.getName(index - 1));
         txt_address.setText(phonebook.getAddress(index - 1));
-        txt_telephone.setText(String.valueOf(phonebook.getTelephone(index - 1)));
+        txt_telephone.setText(phonebook.getTelephone(index - 1));
         lab_site.setText(index + "/" + phonebook.size());
         phonebook.save(false);
     }

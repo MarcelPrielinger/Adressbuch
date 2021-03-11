@@ -59,7 +59,7 @@ public class Phonebook
             while ((s = br.readLine()) != null)
             {
                 String split[] = s.split(";");
-                people.add(new Person(split[0], split[1], Integer.parseInt(split[2])));
+                people.add(new Person(split[0], split[1], split[2]));
             }
             System.out.println("Erfolgreich geladen!");
         } catch (Exception e) {
@@ -77,7 +77,7 @@ public class Phonebook
         return this.people.get(index).getAddress();
     }
 
-    public int getTelephone(int index)
+    public String getTelephone(int index)
     {
         return this.people.get(index).getTelephone();
     }
