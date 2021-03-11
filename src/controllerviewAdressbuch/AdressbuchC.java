@@ -3,6 +3,7 @@ package controllerviewAdressbuch;
 import controllerviewAdd.AddC;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -11,8 +12,10 @@ import javafx.stage.Stage;
 import model.Phonebook;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class AdressbuchC {
+public class AdressbuchC implements Initializable {
 
     private Stage stage;
     @FXML
@@ -41,7 +44,7 @@ public class AdressbuchC {
             ctrl.stage = stage;
 
             stage.setTitle("Adressbuch");
-            stage.setScene(new Scene(root, 360, 370));
+            stage.setScene(new Scene(root, 360, 310));
             stage.show();
         }
         catch (IOException e) {
@@ -57,20 +60,6 @@ public class AdressbuchC {
         AddC.show(new Stage());
     }
 
-    @FXML
-    public void loadCSV()
-    {
-        try {
-            phonebook.load();
-            index = 1;
-            paste();
-        }
-        catch (Exception e)
-        {
-            System.out.println("Fehler beim laden!");
-        }
-    }
-
     public void delete()
     {
         try {
@@ -80,7 +69,14 @@ public class AdressbuchC {
 
             phonebook.getPeople().remove(index - 1);
             index -= 1;
-            lab_site.setText(index + "/" + phonebook.size());
+            if(index != 0)
+            {
+                update();
+            }
+            else
+            {
+                phonebook.save(false);
+            }
         }
         catch (Exception e)
         {
@@ -93,7 +89,7 @@ public class AdressbuchC {
         try {
             if (index < phonebook.size()) {
                 index++;
-                paste();
+                update();
             } else
                 lab_error.setText("Ungültige Seitenzahl!");
         }
@@ -108,7 +104,7 @@ public class AdressbuchC {
         try {
             if (index > 1) {
                 index--;
-                paste();
+                update();
             } else
                 lab_error.setText("Ungültige Seitenzahl!");
         }
@@ -118,38 +114,31 @@ public class AdressbuchC {
         }
     }
 
-    public void saveCSV()
-    {
-        try {
-            phonebook.save(false);
-        }
-        catch (Exception e)
-        {
-            System.out.println("Fehler beim Speichern!");
-        }
-    }
-
-    public void saveChanges()
-    {
-        try {
-            phonebook.getPeople().get(index - 1).setName(txt_name.getText());
-            phonebook.getPeople().get(index - 1).setAddress(txt_address.getText());
-            phonebook.getPeople().get(index - 1).setTelephone(Integer.parseInt(txt_telephone.getText()));
-            System.out.println("Werte geändert!");
-        }
-        catch (Exception e)
-        {
-            System.out.println("Werte konnten nicht geändert werden!");
-        }
-    }
-
-    public void paste() {
+    public void update() {
         txt_name.setText(phonebook.getName(index - 1));
         txt_address.setText(phonebook.getAddress(index - 1));
         txt_telephone.setText(String.valueOf(phonebook.getTelephone(index - 1)));
         lab_site.setText(index + "/" + phonebook.size());
+        phonebook.save(false);
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle)
+    {
+        try {
+            phonebook.load();
+            update();
+        }
+        catch (IndexOutOfBoundsException e)
+        {
+            lab_error.setText("Keine Person im Telefonbuch!");
+            System.out.println("Keine Person im Telefonbuch!");
+        }
+        catch (Exception e)
+        {
+            System.out.println("Es ist ein Fehler beim starten des Programms aufgetreten!");
+        }
+    }
 }
 
 

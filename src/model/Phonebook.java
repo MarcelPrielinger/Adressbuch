@@ -31,7 +31,6 @@ public class Phonebook
                     bw.write(people.get(c).toString());
                     bw.newLine();
                 }
-                bw.close();
                 System.out.println("Speichern erfolgreich!");
             } catch (Exception e) {
                 System.out.println("Fehler beim Speichern!");
@@ -56,13 +55,12 @@ public class Phonebook
         people.clear();
         try(BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + "\\src\\save\\Phonebook.csv")))
         {
-            String s = "";
+            String s;
             while ((s = br.readLine()) != null)
             {
                 String split[] = s.split(";");
                 people.add(new Person(split[0], split[1], Integer.parseInt(split[2])));
             }
-            br.close();
             System.out.println("Erfolgreich geladen!");
         } catch (Exception e) {
             System.out.println("Fehler beim Laden!");
